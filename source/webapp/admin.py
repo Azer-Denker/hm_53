@@ -1,11 +1,11 @@
 from django.contrib import admin
-from webapp.models import Article, Comment, Tag
+from webapp.models import Tipe, Comment, Tag
 
 
-class ArticleAdmin(admin.ModelAdmin):
+class TipeAdmin(admin.ModelAdmin):
     filter_horizontal = ('tags',)
 
 
-admin.site.register(Article, ArticleAdmin)
+admin.site.register(Tipe, TipeAdmin)
 admin.site.register(Comment)
 admin.site.register(Tag)

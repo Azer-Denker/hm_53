@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}View{% endblock %}
+
+{% block menu %}
+    <li><a href="{% url 'tipe_update' tipe.pk %}">Update</a></li>
+    <li><a href="{% url 'tipe_delete' tipe.pk %}">Delete</a></li>
+{% endblock %}
+
+{% block content %}
+    <h1>{{ tipe.title }}</h1>
+    <p class="pre">{{ tipe.text }}</p>
+    <p>By: {{ tipe.author }} | {{ tipe.created_at|date:"d.m.Y H:i:s" }}</p>
+    <p>Published at: {{ tipe.publish_at|date:"d.m.Y H:i:s" }}</p>
+    <p>Tags: {% for tag in tipe.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+
+    <h3>Comments:</h3>
+    {% for comment in tipe.comments.all %}
+        <div>
+            <h4>{{ comment.author }} ({{ comment.created_at }})</h4>
+            <div class="pre">{{ comment.text }}</div>
+        </div>
+    {% empty %}
+        <p>Нет комментариев</p>
+    {% endfor %}
+{% endblock %}

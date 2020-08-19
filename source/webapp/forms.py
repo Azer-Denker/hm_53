@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import BaseValidator
 from django.utils.deconstruct import deconstructible
 
-from .models import STATUS_CHOICES, Article, Tag
+from .models import STATUS_CHOICES, Tipe, Tag
 
 
 default_status = STATUS_CHOICES[0][0]
@@ -33,7 +33,7 @@ class MinLengthValidator(BaseValidator):
         return len(value)
 
 
-class ArticleForm(forms.ModelForm):
+class TipeForm(forms.ModelForm):
     publish_at = forms.DateTimeField(required=False, label='Время публикации',
                                      input_formats=['%Y-%m-%d', BROWSER_DATETIME_FORMAT,
                                                     '%Y-%m-%dT%H:%M:%S', '%Y-%m-%d %H:%M',
@@ -41,7 +41,7 @@ class ArticleForm(forms.ModelForm):
                                      widget=XDatepickerWidget)
 
     class Meta:
-        model = Article
+        model = Tipe
         fields = ['title', 'text', 'author', 'status', 'publish_at', 'tags']
         widgets = {'tags': forms.CheckboxSelectMultiple}
 
@@ -52,7 +52,7 @@ class ArticleForm(forms.ModelForm):
         title = cleaned_data.get('title')
         author = cleaned_data.get('author')
         if text and title and text == title:
-            errors.append(ValidationError("Text of the article should not duplicate it's title!"))
+            errors.append(ValidationError("Text of the tipe should not duplicate it's title!"))
         if title and author and title == author:
             errors.append(ValidationError("You should not write about yourself! It's a spam!"))
         if errors:
@@ -61,7 +61,7 @@ class ArticleForm(forms.ModelForm):
 
 
 # class CommentForm(forms.Form):
-#     article = forms.ModelChoiceField(queryset=Article.objects.all(), required=True, label='Статья')
+#     tipe = forms.ModelChoiceField(queryset=Tipe.objects.all(), required=True, label='Статья')
 
 
 class SimpleSearchForm(forms.Form):

@@ -5,14 +5,14 @@ from django.urls import reverse
 from django.utils.timezone import make_naive
 from django.views.generic import ListView, TemplateView, FormView
 
-from webapp.models import Article
-from .forms import ArticleForm, BROWSER_DATETIME_FORMAT, SimpleSearchForm
+from webapp.models import Tipe
+from .forms import TipeForm, BROWSER_DATETIME_FORMAT, SimpleSearchForm
 from .base_views import FormView as CustomFormView, ListView as CustomListView
 
 
 class IndexView(ListView):
     template_name = 'index.html'
-    context_object_name = 'articles'
+    context_object_name = 'tipes'
     paginate_by = 2
     paginate_orphans = 0
 
@@ -25,10 +25,10 @@ class IndexView(ListView):
         return super().get_context_data(object_list=object_list, **kwargs)
 
     def get_queryset(self):
-        data = Article.objects.all()
+        data = Tipe.objects.all()
 
         if not self.request.GET.get('is_admin', None):
-            data = Article.objects.filter(status='moderated')
+            data = Tipe.objects.filter(status='moderated')
 
         # http://localhost:8000/?search=ygjkjhg
         form = SimpleSearchForm(data=self.request.GET)
@@ -40,71 +40,71 @@ class IndexView(ListView):
         return data.order_by('-created_at')
 
 
-class ArticleView(TemplateView):
-    template_name = 'article_view.html'
+class TipeView(TemplateView):
+    template_name = 'tipe_view.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         pk = self.kwargs.get('pk')
-        article = get_object_or_404(Article, pk=pk)
+        tipe = get_object_or_404(Tipe, pk=pk)
 
-        context['article'] = article
+        context['tipe'] = tipe
         return context
 
 
-class ArticleCreateView(CustomFormView):
-    template_name = 'article_create.html'
-    form_class = ArticleForm
+class TipeCreateView(CustomFormView):
+    template_name = 'tipe_create.html'
+    form_class = TipeForm
 
     def form_valid(self, form):
-        self.article = form.save()
+        self.tipe = form.save()
         return super().form_valid(form)
 
     def get_redirect_url(self):
-        return reverse('article_view', kwargs={'pk': self.article.pk})
+        return reverse('article_view', kwargs={'pk': self.tipe.pk})
 
 
-class ArticleUpdateView(FormView):
-    template_name = 'article_update.html'
-    form_class = ArticleForm
+class TipeUpdateView(FormView):
+    template_name = 'tipr_update.html'
+    form_class = TipeForm
 
     def dispatch(self, request, *args, **kwargs):
-        self.article = self.get_object()
+        self.tipe = self.get_object()
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['article'] = self.article
+        context['tipe'] = self.tipe
         return context
 
     def get_initial(self):
-        return {'publish_at': make_naive(self.article.publish_at)\
+        return {'publish_at': make_naive(self.tipe.publish_at)\
             .strftime(BROWSER_DATETIME_FORMAT)}
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['instance'] = self.article
+        kwargs['instance'] = self.tipe
         return kwargs
 
     def form_valid(self, form):
-        self.article = form.save()
+        self.tipe = form.save()
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('article_view', kwargs={'pk': self.article.pk})
+        return reverse('article_view', kwargs={'pk': self.tipe.pk})
 
     def get_object(self):
         pk = self.kwargs.get('pk')
-        return get_object_or_404(Article, pk=pk)
+        return get_object_or_404(Tipe, pk=pk)
 
 
-def article_delete_view(request, pk):
-    article = get_object_or_404(Article, pk=pk)
+def tipe_delete_view(request, pk):
+    tipe = get_object_or_404(Tipe, pk=pk)
     if request.method == 'GET':
-        return render(request, 'article_delete.html', context={'article': article})
+        return render(request, 'tipe_delete.html', context={'tipe': tipe})
     elif request.method == 'POST':
-        article.delete()
+        tipe.delete()
         return redirect('index')
     else:
         return HttpResponseNotAllowed(permitted_methods=['GET', 'POST'])

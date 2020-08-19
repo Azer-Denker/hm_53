@@ -16,13 +16,13 @@
     {% if is_paginated %}
         {% include 'partial/pagination.html' %}
     {% endif %}
-    {% for article in articles %}
-        <h3><a href="{% url "article_view" article.pk %}">{{ article.title }}</a></h3>
-        <p>Статус: ({{ article.status }} | {{ article.get_status_display }})</p>
-        <p>{{ article.author }} | {{ article.created_at|date:"d.m.Y H:i:s" }}</p>
-        <p>Published at: {{ article.publish_at|date:"d.m.Y H:i:s" }}</p>
-        <p><a href="{% url 'article_update' article.pk %}">Update</a></p>
-        <p><a href="{% url 'article_delete' article.pk %}">Delete</a></p>
+    {% for tipe in tipes %}
+        <h3><a href="{% url "tipe_view" tipe.pk %}">{{ tipe.title }}</a></h3>
+        <p>Статус: ({{ tipe.status }} | {{ tipe.get_status_display }})</p>
+        <p>{{ tipe.author }} | {{ tipe.created_at|date:"d.m.Y H:i:s" }}</p>
+        <p>Published at: {{ tipe.publish_at|date:"d.m.Y H:i:s" }}</p>
+        <p><a href="{% url 'tipe_update' tipe.pk %}">Update</a></p>
+        <p><a href="{% url 'tipe_delete' tipe.pk %}">Delete</a></p>
     {% endfor %}
     {% if is_paginated %}
         {% include 'partial/pagination.html' %}

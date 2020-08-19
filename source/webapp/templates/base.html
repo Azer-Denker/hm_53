@@ -8,7 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}My Site{% endblock %}</title>
 
-    <!-- XDSoft DateTimePicker -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -19,16 +18,9 @@
     <div class="container">
         <ul class="menu">
             <li><a href="{% url 'index' %}">Home</a></li>
-            <li><a href="{% url 'article_create' %}">Add Article</a></li>
+            <li><a href="{% url 'tipe_create' %}">Add Tipe</a></li>
             {% block menu %}{% endblock %}
         </ul>
-
-{#        <div class="search-form">#}
-{#            <form action="{% url 'index' %}" method="GET">#}
-{#                <input type="text" name="search">#}
-{#                <input type="submit" value="Найти">#}
-{#            </form>#}
-{#        </div>#}
         {% block search %}
         {% endblock %}
     </div>
