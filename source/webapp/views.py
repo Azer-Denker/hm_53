@@ -28,7 +28,7 @@ class IndexView(ListView):
         data = Tipe.objects.all()
 
         if not self.request.GET.get('is_admin', None):
-            data = Tipe.objects.filter(status='moderated')
+            data = Tipe.objects.filter(status='In Progress')
 
         # http://localhost:8000/?search=ygjkjhg
         form = SimpleSearchForm(data=self.request.GET)
@@ -62,11 +62,11 @@ class TipeCreateView(CustomFormView):
         return super().form_valid(form)
 
     def get_redirect_url(self):
-        return reverse('article_view', kwargs={'pk': self.tipe.pk})
+        return reverse('tipe_view', kwargs={'pk': self.tipe.pk})
 
 
 class TipeUpdateView(FormView):
-    template_name = 'tipr_update.html'
+    template_name = 'tipe_update.html'
     form_class = TipeForm
 
     def dispatch(self, request, *args, **kwargs):
@@ -92,7 +92,7 @@ class TipeUpdateView(FormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('article_view', kwargs={'pk': self.tipe.pk})
+        return reverse('tipe_view', kwargs={'pk': self.tipe.pk})
 
     def get_object(self):
         pk = self.kwargs.get('pk')
