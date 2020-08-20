@@ -2,27 +2,20 @@
 
 {% block title %}Hello{% endblock %}
 
-{% block search %}
-    <div class="search-form">
-        <form action="{% url 'index' %}" method="GET">
-            {{ form.search }}
-            <input type="submit" value="Найти">
-        </form>
-    </div>
-{% endblock %}
-
 {% block content %}
     <h1>Статьи:</h1>
     {% if is_paginated %}
         {% include 'partial/pagination.html' %}
     {% endif %}
     {% for tipe in tipes %}
-        <h3><a href="{% url "tipe_view" tipe.pk %}">{{ tipe.title }}</a></h3>
-        <p>Статус: ({{ tipe.status }} | {{ tipe.get_status_display }})</p>
-        <p>{{ tipe.author }} | {{ tipe.created_at|date:"d.m.Y H:i:s" }}</p>
-        <p>Published at: {{ tipe.publish_at|date:"d.m.Y H:i:s" }}</p>
-        <p><a href="{% url 'tipe_update' tipe.pk %}">Update</a></p>
-        <p><a href="{% url 'tipe_delete' tipe.pk %}">Delete</a></p>
+         <div class="box">
+            <h3><a href="{% url "article_view" article.pk %}">{{ article.title }}</a></h3>
+            <p>Статус: ({{ article.status }} | {{ article.get_status_display }})</p>
+            <p>{{ article.author }} | {{ article.created_at|date:"d.m.Y H:i:s" }}</p>
+            <p>Published at: {{ article.publish_at|date:"d.m.Y H:i:s" }}</p>
+            <p><a href="{% url 'article_update' article.pk %}">Update</a></p>
+            <p><a href="{% url 'article_delete' article.pk %}">Delete</a></p>
+        </div>
     {% endfor %}
     {% if is_paginated %}
         {% include 'partial/pagination.html' %}
