@@ -60,9 +60,5 @@ class TipeForm(forms.ModelForm):
         return cleaned_data
 
 
-# class CommentForm(forms.Form):
-#     tipe = forms.ModelChoiceField(queryset=Tipe.objects.all(), required=True, label='Статья')
-
-
 class SimpleSearchForm(forms.Form):
     search = forms.CharField(max_length=100, required=False, label="Найти")

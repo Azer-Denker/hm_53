@@ -13,7 +13,7 @@ from .base_views import FormView as CustomFormView, ListView as CustomListView
 class IndexView(ListView):
     template_name = 'index.html'
     context_object_name = 'tipes'
-    paginate_by = 2
+    paginate_by = 5
     paginate_orphans = 0
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -25,16 +25,11 @@ class IndexView(ListView):
 
     def get_queryset(self):
         data = Tipe.objects.all()
-
-        if not self.request.GET.get('is_admin', None):
-            data = Tipe.objects.filter(status='In Progress')
-
-        # http://localhost:8000/?search=ygjkjhg
         form = SimpleSearchForm(data=self.request.GET)
         if form.is_valid():
             search = form.cleaned_data['search']
             if search:
-                data = data.filter(Q(title__icontains=search) | Q(author__icontains=search))
+                data = data.filter(Q(description__icontains=search) | Q(maxdescription__icontains=search))
 
         return data.order_by('-created_at')
 

@@ -16,7 +16,7 @@ class Tipe(models.Model):
     text = models.TextField(max_length=3000, null=False, blank=False, verbose_name='Текст')
     author = models.CharField(max_length=40, null=False, blank=False, default='Unknown', verbose_name='Автор')
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='new', verbose_name='Модерация')
-    tags = models.ManyToManyField('webapp.Tag', verbose_name='Теги', blank=True, related_name='tipes')
+    tags = models.ManyToManyField('webapp.Tag', verbose_name='Теги', blank=True, related_name='tags')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
     publish_at = models.DateTimeField(verbose_name="Время публикации", blank=True, default=timezone.now)
