@@ -1,5 +1,10 @@
 from django.contrib import admin
-from webapp.models import Tipe, Comment, Tag
+from webapp.models import Tipe, Tag, Status
+
+
+class StatusAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name']
+    fields = ['name']
 
 
 class TipeAdmin(admin.ModelAdmin):
@@ -7,5 +12,5 @@ class TipeAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Tipe, TipeAdmin)
-admin.site.register(Comment)
+admin.site.register(Status, StatusAdmin)
 admin.site.register(Tag)

@@ -3,14 +3,14 @@
 {% block title %}Hello{% endblock %}
 
 {% block content %}
-    <h1>Статьи:</h1>
+    <h1>Задачи:</h1>
     {% if is_paginated %}
         {% include 'partial/pagination.html' %}
     {% endif %}
     {% for tipe in tipes %}
          <div class="box">
             <h3><a href="{% url "tipe_view" tipe.pk %}">{{ tipe.title }}</a></h3>
-            <p>Статус: ({{ tipe.status }} | {{ tipe.get_status_display }})</p>
+            <p>Статус: ({{ tipe.status }})</p>
             <p>{{ tipe.author }} | {{ tipe.created_at|date:"d.m.Y H:i:s" }}</p>
             <p>Published at: {{ tipe.publish_at|date:"d.m.Y H:i:s" }}</p>
             <p><a href="{% url 'tipe_update' tipe.pk %}">Update</a></p>

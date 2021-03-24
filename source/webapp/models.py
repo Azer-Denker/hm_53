@@ -15,7 +15,7 @@ class Tipe(models.Model):
                              validators=[MinLengthValidator(10)])
     text = models.TextField(max_length=3000, null=False, blank=False, verbose_name='Текст')
     author = models.CharField(max_length=40, null=False, blank=False, default='Unknown', verbose_name='Автор')
-    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='new', verbose_name='Модерация')
+    status = models.ForeignKey('webapp.Status', related_name='status', on_delete=models.PROTECT, verbose_name='Статус')
     tags = models.ManyToManyField('webapp.Tag', verbose_name='Теги', blank=True, related_name='tags')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
@@ -37,21 +37,11 @@ class Tipe(models.Model):
         verbose_name_plural = 'Статьи'
 
 
-class Comment(models.Model):
-    tipe = models.ForeignKey('webapp.Tipe', related_name='comments',
-                                on_delete=models.CASCADE, verbose_name='Статья')
-    text = models.TextField(max_length=400, verbose_name='Комментарий')
-    author = models.CharField(max_length=40, null=True, blank=True, default='Аноним', verbose_name='Автор')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
+class Status(models.Model):
+    name = models.CharField(max_length=15, verbose_name='Статус')
 
     def __str__(self):
-        return self.text[:20]
-
-    class Meta:
-        verbose_name = 'Комментарий'
-        verbose_name_plural = 'Комментарии'
-
+        return self.name
 
 class Tag(models.Model):
     name = models.CharField(max_length=31, verbose_name='Тег')

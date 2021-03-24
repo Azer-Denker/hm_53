@@ -13,7 +13,8 @@ from .base_views import FormView as CustomFormView, ListView as CustomListView
 class IndexView(ListView):
     template_name = 'index.html'
     context_object_name = 'tipes'
-    paginate_by = 5
+    model = Tipe
+    paginate_by = 3
     paginate_orphans = 0
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -29,7 +30,7 @@ class IndexView(ListView):
         if form.is_valid():
             search = form.cleaned_data['search']
             if search:
-                data = data.filter(Q(description__icontains=search) | Q(maxdescription__icontains=search))
+                data = data.filter(Q(title__icontains=search) | Q(text__icontains=search))
 
         return data.order_by('-created_at')
 

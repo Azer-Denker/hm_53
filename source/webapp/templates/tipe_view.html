@@ -15,14 +15,5 @@
         <p>Published at: {{ tipe.publish_at|date:"d.m.Y H:i:s" }}</p>
         <p>Tags: {% for tag in tipe.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
         <hr>
-        <h3>Comments:</h3>
-        {% for comment in tipe.comments.all %}
-            <div class="box">
-                <h4>{{ comment.author }} ({{ comment.created_at }})</h4>
-                <div class="pre">{{ comment.text }}</div>
-            </div>
-        {% empty %}
-            <p>Нет комментариев</p>
-        {% endfor %}
     </div>
 {% endblock %}
